@@ -31,7 +31,7 @@ def resource_path(relative_path):
     return os.path.join(base_path, relative_path)
 
 # Базовая директория для игр
-BASE_GAME_DIR = os.path.join(os.getenv('APPDATA'), '.MjnLauncher', 'game')
+BASE_GAME_DIR = os.path.join(os.getenv('APPDATA'), '.MOOD_LAUNCHER', 'game')
 
 # Настройки Java
 JRE_DIR = "jre"
@@ -329,13 +329,13 @@ class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
 
-        self.setWindowTitle('MJNL')
+        self.setWindowTitle('MOOD LAUNCER')
         self.resize(300, 200)
         self.centralwidget = QWidget(self)
 
         # Путь к файлу с аккаунтами
         self.users_path = os.path.join(
-            os.getenv('APPDATA'), '.MjnLauncher', 'client', 'users.json'
+            os.getenv('APPDATA'), '.MOOD_LAUNCHER', 'client', 'users.json'
         )
         os.makedirs(os.path.dirname(self.users_path), exist_ok=True)
 
@@ -502,7 +502,7 @@ class MainWindow(QMainWindow):
 
 
 if __name__ == '__main__':
-    app = QApplication(argv)
+    app = QApplication(sys.argv)
     window = MainWindow()
     window.show()
-    exit(app.exec())
+    sys.exit(app.exec())
