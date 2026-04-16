@@ -1,3 +1,6 @@
 .game
 .jar
 jre
+build/
+dist/
+*.spec

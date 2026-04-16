@@ -1,10 +1,10 @@
 import os
+import sys
 import json
 import requests
 import zipfile
 import uuid
 from subprocess import call
-from sys import argv, exit
 from typing import List, Dict
 
 from PyQt6.QtCore import QThread, pyqtSignal, QSize, Qt
@@ -20,8 +20,18 @@ from minecraft_launcher_lib.install import install_minecraft_version
 from minecraft_launcher_lib.command import get_minecraft_command
 import minecraft_launcher_lib.forge
 
+# Определение базового пути для ресурсов (работает и в .exe и в .py)
+def resource_path(relative_path):
+    """Получить абсолютный путь к ресурсу, работает для dev и для PyInstaller"""
+    try:
+        # PyInstaller создает временную папку и сохраняет путь в _MEIPASS
+        base_path = sys._MEIPASS
+    except Exception:
+        base_path = os.path.abspath(".")
+    return os.path.join(base_path, relative_path)
+
 # Базовая директория для игр
-BASE_GAME_DIR = ".game"
+BASE_GAME_DIR = os.path.join(os.getenv('APPDATA'), '.MjnLauncher', 'game')
 
 # Настройки Java
 JRE_DIR = "jre"
@@ -332,7 +342,7 @@ class MainWindow(QMainWindow):
         # Логотип
         self.logo = QLabel(self.centralwidget)
         self.logo.setMaximumSize(QSize(256, 37))
-        self.logo.setPixmap(QPixmap('assets/title.png'))
+        self.logo.setPixmap(QPixmap(resource_path('assets/title.png')))
         self.logo.setScaledContents(True)
 
         # Список аккаунтов и кнопка добавления
